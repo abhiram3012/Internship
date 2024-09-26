@@ -1,0 +1,17 @@
+# React build output
+/build
+/dist
+
+# Cache and local environment settings
+.cache/
+.vscode/
+.idea/
+
+# Ignore coverage reports
+coverage/
+
+# Ignore environment variables in the frontend (if any)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

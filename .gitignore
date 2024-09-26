@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+
+# React build output
+/frontend/build
+/frontend/node_modules
+
+# Cache and local settings
+.vscode/
+.idea/
+.cache/
+
+# Misc
+.DS_Store
+Thumbs.db
