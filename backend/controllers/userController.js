@@ -34,7 +34,6 @@ const registerUser = asyncHandler(async (req,res) => {
         res.status(400);
         throw new Error("User data is not valid");
     }
-    res.json({message : "Register the user"});
 });
 
 //@desc login of a user
@@ -56,15 +55,13 @@ const loginUser = asyncHandler(async (req,res) => {
                 id: usr.id,
             },
         }, 
-        process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn: "15m"}
+        process.env.ACCESS_TOKEN_SECRET
         );
         res.status(200).json((accessToken))
     }else{
         res.status(401);
         throw new Error("email or password is not valid");
     }
-    res.json({message : "Login user"});
 });
 
 module.exports = {registerUser, loginUser};

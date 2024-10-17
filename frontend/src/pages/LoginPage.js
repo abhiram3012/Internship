@@ -20,7 +20,8 @@ export function LoginForm() {
     setError('');
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      localStorage.setItem('token', response.data.accessToken);
+      console.log(response.data);
+      localStorage.setItem('token', response.data);
       navigate('/admin/dashboard');
     } catch (error) {
       if (error.response && error.response.status === 401) {
