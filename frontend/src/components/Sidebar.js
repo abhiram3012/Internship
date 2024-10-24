@@ -28,7 +28,18 @@ export function Sidebar() {
     if (validateToken()) {
       navigate(path);
     } else {
-      navigate('/login'); // Redirect to login if token is invalid
+      navigate('/'); // Redirect to login if token is invalid
+    }
+  };
+
+  const handleLogout = (path) => {
+    if (path === '/') {
+      // Implementing the logout logic
+      console.log("in the logout part");
+      localStorage.removeItem('token'); // Remove the token (or session storage item)
+      navigate('/'); // Redirect to the login page
+    } else {
+      navigate(path); // Navigate to the provided path
     }
   };
 
@@ -64,7 +75,7 @@ export function Sidebar() {
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem onClick={() => handleNavigation('/login')}>
+        <ListItem onClick={() => handleLogout('/')}>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

@@ -109,7 +109,6 @@ router.post('/loginUser', async (req, res) => {
 router.get('/getAll', async (req, res) => {
     try {
       const endusers = await EndUser.find();
-      console.log(endusers);
       res.status(200).json(endusers);
     } catch (error) {
       console.error('Error fetching endusers:', error);

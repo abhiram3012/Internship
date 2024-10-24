@@ -3,8 +3,11 @@ import axios from 'axios';
 import { Typography, Input, Button } from "@material-tailwind/react";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 export function LoginForm() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
@@ -20,8 +23,9 @@ export function LoginForm() {
     setError('');
     try {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
-      console.log(response.data);
-      localStorage.setItem('token', response.data);
+      //console.log(response.data.email);
+      localStorage.setItem('token', response.data.accessToken);
+      dispatch(addUser({uid:response.data.id,username:response.data.username,email:response.data.email,accesstoken:response.data.accessToken}))
       navigate('/admin/dashboard');
     } catch (error) {
       if (error.response && error.response.status === 401) {

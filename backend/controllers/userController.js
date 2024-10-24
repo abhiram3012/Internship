@@ -57,7 +57,7 @@ const loginUser = asyncHandler(async (req,res) => {
         }, 
         process.env.ACCESS_TOKEN_SECRET
         );
-        res.status(200).json((accessToken))
+        res.status(200).json({id:usr.id,email:usr.email,username:usr.username,accessToken:accessToken})
     }else{
         res.status(401);
         throw new Error("email or password is not valid");

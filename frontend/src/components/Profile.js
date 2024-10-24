@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Profile() {
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phoneNumber: '123-456-7890',
-    role: 'Technician', // or 'End User'
-  });
-
+  const user = useSelector((state) => state.user); // Access user from Redux store
   const [isEditing, setIsEditing] = useState(false);
-  const [editedUser, setEditedUser] = useState(user);
+  const [editedUser, setEditedUser] = useState({
+    name: user.username,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    role: user.role,
+  });
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleEditToggle = () => {
     if (isEditing) {
-      setUser(editedUser);
+      // Dispatch an action to save the updated user info (if needed)
     }
     setIsEditing(!isEditing);
   };
@@ -48,7 +48,7 @@ function Profile() {
                 className="block w-2/3 p-1 border border-gray-300 rounded"
               />
             ) : (
-              <span>{user.name}</span>
+              <span>{user.username}</span>
             )}
           </div>
         </div>
@@ -80,7 +80,7 @@ function Profile() {
                 className="block w-2/3 p-1 border border-gray-300 rounded"
               />
             ) : (
-              <span>{user.phoneNumber}</span>
+              <span>1234567890</span>
             )}
           </div>
         </div>

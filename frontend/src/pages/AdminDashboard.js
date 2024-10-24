@@ -33,6 +33,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleLogout = (path) => {
+    if (path === '/') {
+      // Implementing the logout logic
+      console.log("in the logout part");
+      localStorage.removeItem('token'); // Remove the token (or session storage item)
+      navigate('/'); // Redirect to the login page
+    } else {
+      navigate(path); // Navigate to the provided path
+    }
+  };
+
   return (
     <Card className="fixed top-0 left-0 h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-9000/5">
       <div className="mb-2 p-4">
@@ -71,7 +82,7 @@ export default function AdminDashboard() {
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem onClick={() => handleNavigation('/login')}>
+        <ListItem onClick={() => handleLogout('/')}>
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

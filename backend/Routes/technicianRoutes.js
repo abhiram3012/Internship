@@ -113,7 +113,6 @@ router.post('/login', async (req, res) => {
 router.get('/getAll', async (req, res) => {
   try {
     const technicians = await Technician.find();
-    console.log(technicians);
     res.status(200).json(technicians);
   } catch (error) {
     console.error('Error fetching technicians:', error);
