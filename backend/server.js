@@ -10,7 +10,7 @@ app.use(cors());
 
 const port = process.env.port || 5678;
 app.use(express.json());
-app.use("/api/users", require('./Routes/userRoutes'))
+app.use("/api/admin", require('./Routes/userRoutes'))
 app.use("/api/enduser", require('./Routes/endUserRoutes'))
 app.use("/api/technician", require('./Routes/technicianRoutes'))
 app.use("/api/complain", require('./Routes/complaintRoutes'))

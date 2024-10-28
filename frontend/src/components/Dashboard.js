@@ -47,10 +47,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-center text-xl font-semibold mb-4">Complaints Status</h2>
-        <Pie data={data} options={options} />
+    <div className="flex justify-center items-center min-h-screen p-4 bg-gray-100">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-center text-2xl font-semibold mb-4">Complaints Status</h2>
+        <div className="flex justify-center">
+          <Pie data={data} options={options} />
+        </div>
       </div>
     </div>
   );

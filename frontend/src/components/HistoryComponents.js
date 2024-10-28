@@ -33,10 +33,10 @@ const HistoryComponents = () => {
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="px-4 py-2 border">Problem Name</th>
-              <th className="px-4 py-2 border">When Raised</th>
-              <th className="px-4 py-2 border">Technician Assigned</th>
-              <th className="px-4 py-2 border">Status</th>
+              <th className="px-4 py-2 border text-left">Problem Name</th>
+              <th className="px-4 py-2 border text-left">When Raised</th>
+              <th className="px-4 py-2 border text-left">Technician Assigned</th>
+              <th className="px-4 py-2 border text-left">Status</th>
             </tr>
           </thead>
           <tbody>

@@ -29,11 +29,16 @@ const transporter = nodemailer.createTransport({
 // Create User Route
 router.post('/register', async (req, res) => {
   const { username, fullname, department, phoneNumber, emailId } = req.body;
-
+  console.log(username)
+  console.log(fullname)
+  console.log(department)
+  console.log(phoneNumber)
+  console.log(emailId)
   try {
     // Check if the user already exists
     const existingUser = await EndUser.findOne({ emailId });
     if (existingUser) {
+      console.log("already existing user")
       return res.status(400).json({ message: 'User already exists.' });
     }
 
@@ -79,8 +84,10 @@ router.post('/register', async (req, res) => {
 });
 
 // Login User Route
-router.post('/loginUser', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { emailId, password } = req.body;
+  console.log(emailId);
+  console.log(password);
 
   try {
     // Find the user by email
@@ -96,9 +103,8 @@ router.post('/loginUser', async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
-
-    res.status(200).json({ message: 'Login successful', token });
+    const accessToken = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    res.status(200).json({id:user.id,emailId:user.emailId,username:user.username,accessToken:accessToken})
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'Server error' });

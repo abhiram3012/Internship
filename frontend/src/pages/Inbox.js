@@ -17,21 +17,32 @@ const Inbox = () => {
   };
 
   return (
-    <Card className="p-4">
-      <Typography variant="h5" color="blue-gray">
+    <Card className="p-4 max-w-full md:max-w-lg mx-auto">
+      <Typography variant="h5" color="blue-gray" className="mb-4">
         Inbox
       </Typography>
       <List>
         {tasks.map(task => (
-          <ListItem key={task.id} className="flex justify-between items-center hover:bg-gray-200 p-2">
-            <div className="flex items-center">
+          <ListItem
+            key={task.id}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center hover:bg-gray-200 p-3 rounded-lg"
+          >
+            <div className="flex items-center w-full md:w-auto">
               <ClipboardDocumentIcon className="h-5 w-5 mr-2" />
               <div>
-                <Typography variant="h6" color="blue-gray">{task.name}</Typography>
-                <Typography color="gray">{task.type}</Typography>
+                <Typography variant="h6" color="blue-gray" className="text-sm md:text-base">
+                  {task.name}
+                </Typography>
+                <Typography color="gray" className="text-xs md:text-sm">{task.type}</Typography>
               </div>
             </div>
-            <Button onClick={() => handleTaskClick(task.id)} size="sm">Details</Button>
+            <Button
+              onClick={() => handleTaskClick(task.id)}
+              size="sm"
+              className="mt-2 md:mt-0"
+            >
+              Details
+            </Button>
           </ListItem>
         ))}
       </List>

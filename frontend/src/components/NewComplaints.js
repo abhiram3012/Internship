@@ -6,16 +6,15 @@ function NewComplaints() {
   const [complaints, setComplaints] = useState([]);
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [technicians, setTechnicians] = useState([]); // State to store fetched technicians
+  const [technicians, setTechnicians] = useState([]);
   const [selectedTechnician, setSelectedTechnician] = useState('');
   const navigate = useNavigate();
 
-  // Fetch complaints when the component mounts
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/complain/getcomplaints');
-        setComplaints(response.data); // Set the complaints state with the fetched data
+        setComplaints(response.data);
       } catch (error) {
         console.error('Error fetching complaints:', error);
       }
@@ -24,11 +23,10 @@ function NewComplaints() {
     fetchComplaints();
   }, []);
 
-  // Fetch technicians when the modal is opened
   const fetchTechnicians = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/technician/getAll'); // Update with your actual endpoint
-      setTechnicians(response.data); // Store technicians in state
+      const response = await axios.get('http://localhost:5000/api/technician/getAll');
+      setTechnicians(response.data);
     } catch (error) {
       console.error('Error fetching technicians:', error);
     }
@@ -41,7 +39,7 @@ function NewComplaints() {
   const handleAssign = (complaint) => {
     setSelectedComplaint(complaint);
     setShowAssignModal(true);
-    fetchTechnicians(); // Fetch technicians when modal opens
+    fetchTechnicians();
   };
 
   const handleTechnicianSelect = async () => {
@@ -50,17 +48,13 @@ function NewComplaints() {
         alert('Please select a technician');
         return;
       }
-  
-      console.log('Assigning to complaint ID:', selectedComplaint._id); // Debugging
-      console.log('Technician selected:', selectedTechnician); // Debugging
-  
+
       const response = await axios.put(
         `http://localhost:5000/api/complain/assign/${selectedComplaint._id}`, 
-        { technicianId: selectedTechnician }  // Sending the technician's ObjectId
+        { technicianId: selectedTechnician }
       );
-  
+
       if (response.status === 200) {
-        console.log('Assignment successful:', response.data); // Debugging
         setComplaints((prevComplaints) =>
           prevComplaints.map((complaint) =>
             complaint._id === selectedComplaint._id
@@ -71,7 +65,7 @@ function NewComplaints() {
       } else {
         console.error('Failed to assign technician:', response);
       }
-  
+
       setShowAssignModal(false);
       setSelectedTechnician('');
       setSelectedComplaint(null);
@@ -84,44 +78,46 @@ function NewComplaints() {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">New Complaints</h2>
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Raised By</th>
-            <th className="border border-gray-300 p-2">Problem Type</th>
-            <th className="border border-gray-300 p-2">Details</th>
-            <th className="border border-gray-300 p-2">Assign</th>
-          </tr>
-        </thead>
-        <tbody>
-          {complaints.map((complaint) => (
-            <tr key={complaint._id}>
-              <td className="border border-gray-300 p-2">{complaint.raisedBy}</td>
-              <td className="border border-gray-300 p-2">{complaint.problemType}</td>
-              <td className="border border-gray-300 p-2">
-                <button 
-                  onClick={() => handleViewDetails(complaint._id)}
-                  className="text-blue-500 underline"
-                >
-                  View Details
-                </button>
-              </td>
-              <td className="border border-gray-300 p-2">
-                <button 
-                  onClick={() => handleAssign(complaint)} 
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
-                >
-                  Assign
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-300">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Raised By</th>
+              <th className="border border-gray-300 p-2">Problem Type</th>
+              <th className="border border-gray-300 p-2">Details</th>
+              <th className="border border-gray-300 p-2">Assign</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {complaints.map((complaint) => (
+              <tr key={complaint._id}>
+                <td className="border border-gray-300 p-2">{complaint.raisedBy}</td>
+                <td className="border border-gray-300 p-2">{complaint.problemType}</td>
+                <td className="border border-gray-300 p-2">
+                  <button 
+                    onClick={() => handleViewDetails(complaint._id)}
+                    className="text-blue-500 underline"
+                  >
+                    View Details
+                  </button>
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <button 
+                    onClick={() => handleAssign(complaint)} 
+                    className="px-4 py-2 bg-blue-500 text-white rounded"
+                  >
+                    Assign
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {showAssignModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-4 rounded">
+          <div className="bg-white p-4 rounded w-11/12 md:w-1/3">
             <h3 className="text-lg font-bold mb-4">Assign Technician</h3>
             <select 
               value={selectedTechnician} 
@@ -135,18 +131,20 @@ function NewComplaints() {
                 </option>
               ))}
             </select>
-            <button 
-              onClick={handleTechnicianSelect} 
-              className="px-4 py-2 bg-green-500 text-white rounded"
-            >
-              Assign
-            </button>
-            <button 
-              onClick={() => setShowAssignModal(false)} 
-              className="ml-2 px-4 py-2 bg-red-500 text-white rounded"
-            >
-              Cancel
-            </button>
+            <div className="flex justify-end">
+              <button 
+                onClick={handleTechnicianSelect} 
+                className="px-4 py-2 bg-green-500 text-white rounded mr-2"
+              >
+                Assign
+              </button>
+              <button 
+                onClick={() => setShowAssignModal(false)} 
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}

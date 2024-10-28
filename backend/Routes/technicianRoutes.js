@@ -82,11 +82,11 @@ router.post('/register', async (req, res) => {
 
 // Route to log in a technician
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { emailId, password } = req.body;
 
   try {
     // Find the technician by username
-    const technician = await Technician.findOne({ username });
+    const technician = await Technician.findOne({ emailId });
     if (!technician) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
@@ -98,11 +98,10 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ id: technician._id, username: technician.username }, process.env.ACCESS_TOKEN_SECRET, {
+    const accessToken = jwt.sign({ id: technician._id, username: technician.username }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '1h', // Token expiration time
     });
-
-    res.status(200).json({ message: 'Login successful', token });
+    res.status(200).json({id:technician.id,email:technician.email,username:technician.username,accessToken:accessToken})
   } catch (error) {
     console.error('Error logging in technician:', error);
     res.status(500).json({ message: 'Internal server error' });

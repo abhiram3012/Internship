@@ -12,8 +12,8 @@ const ProblemDetails = () => {
   useEffect(() => {
     const fetchProblemDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/complain/getcomplaint/${id}`); // Update with your actual endpoint
-        setProblem(response.data); // Set the problem data
+        const response = await axios.get(`http://localhost:5000/api/complain/getcomplaint/${id}`);
+        setProblem(response.data);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching problem details:', err);
@@ -25,32 +25,32 @@ const ProblemDetails = () => {
     fetchProblemDetails();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (!problem) return <div>Problem not found</div>;
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
+  if (!problem) return <div className="text-center py-10">Problem not found</div>;
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-8 w-full max-w-2xl bg-white rounded-lg shadow-lg space-y-6">
-        <h1 className="text-3xl font-bold text-center">Problem Details</h1>
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold">Department: {problem.department}</h2>
-          <p className="text-lg"><strong>Raised By:</strong> {problem.raisedBy}</p>
-          <p className="text-lg"><strong>Phone Number:</strong> {problem.phoneNumber}</p>
-          <p className="text-lg"><strong>Problem Type:</strong> {problem.problemType}</p>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
+      <div className="p-6 w-full max-w-3xl bg-white rounded-lg shadow-lg space-y-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center">Problem Details</h1>
+        <div className="space-y-4 text-sm sm:text-base lg:text-lg">
+          <h2 className="text-xl sm:text-2xl font-semibold">Department: {problem.department}</h2>
+          <p><strong>Raised By:</strong> {problem.raisedBy}</p>
+          <p><strong>Phone Number:</strong> {problem.phoneNumber}</p>
+          <p><strong>Problem Type:</strong> {problem.problemType}</p>
           {problem.problemType === 'other' && (
-            <p className="text-lg"><strong>Other Problem:</strong> {problem.otherProblem}</p>
+            <p><strong>Other Problem:</strong> {problem.otherProblem}</p>
           )}
-          <p className="text-lg"><strong>Location:</strong> {problem.location}</p>
-          <p className="text-lg"><strong>Problem Details:</strong> {problem.problemDetails}</p>
-          <p className="text-lg"><strong>Under Warranty:</strong> {problem.isUnderWarranty}</p>
-          <p className="text-lg"><strong>Steps Taken:</strong> {problem.stepsTaken}</p>
-          <p className="text-lg"><strong>Initial Addressed By:</strong> {problem.initialAddressedBy}</p>
-          <p className="text-lg"><strong>Department Contact Phone:</strong> {problem.deptContactPhoneNumber}</p>
-          {problem.otherInfo && <p className="text-lg"><strong>Other Info:</strong> {problem.otherInfo}</p>}
+          <p><strong>Location:</strong> {problem.location}</p>
+          <p><strong>Problem Details:</strong> {problem.problemDetails}</p>
+          <p><strong>Under Warranty:</strong> {problem.isUnderWarranty}</p>
+          <p><strong>Steps Taken:</strong> {problem.stepsTaken}</p>
+          <p><strong>Initial Addressed By:</strong> {problem.initialAddressedBy}</p>
+          <p><strong>Department Contact Phone:</strong> {problem.deptContactPhoneNumber}</p>
+          {problem.otherInfo && <p><strong>Other Info:</strong> {problem.otherInfo}</p>}
         </div>
         <div className="text-center mt-6">
-          <button className="px-6 py-3 bg-blue-500 text-white text-lg rounded hover:bg-blue-600 transition">
+          <button className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-500 text-white text-sm sm:text-lg rounded hover:bg-blue-600 transition">
             Accept
           </button>
         </div>

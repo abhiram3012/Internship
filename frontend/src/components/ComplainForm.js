@@ -11,9 +11,9 @@ const ComplainForm = () => {
   const [problemDetails, setProblemDetails] = useState('');
   const [isUnderWarranty, setIsUnderWarranty] = useState('');
   const [stepsTaken, setStepsTaken] = useState('');
-  const [initialAddressedBy, setInitialAddressedBy] = useState('');
-  const [deptContactPhoneNumber, setDeptContactPhoneNumber] = useState('');
-  const [otherInfo, setOtherInfo] = useState('');
+  const [initialAddressedBy, setInitialAddressedBy] = useState(''); // Keep this state
+  const [deptContactPhoneNumber, setDeptContactPhoneNumber] = useState(''); // Keep this state
+  const [otherInfo, setOtherInfo] = useState(''); // Keep this state
   const [isSubmitted, setIsSubmitted] = useState(false); // New state for submission status
 
   const handleProblemChange = (e) => {
@@ -34,9 +34,9 @@ const ComplainForm = () => {
       problemDetails,
       isUnderWarranty,
       stepsTaken,
-      initialAddressedBy,
-      deptContactPhoneNumber,
-      otherInfo,
+      initialAddressedBy, // Include in form submission
+      deptContactPhoneNumber, // Include in form submission
+      otherInfo, // Include in form submission
     };
 
     try {
@@ -63,7 +63,7 @@ const ComplainForm = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md space-y-4">
+    <div className="max-w-lg mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md space-y-4 md:max-w-2xl lg:max-w-3xl xl:max-w-4xl">
       {isSubmitted && (
         <div className="flex items-center bg-green-100 border border-green-300 text-green-700 p-4 rounded-lg mb-4">
           <FaCheckCircle className="mr-2" />
@@ -72,8 +72,6 @@ const ComplainForm = () => {
       )}
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Your existing form fields go here */}
-        
         {/* Department Name */}
         <div className="p-4 border border-gray-300 rounded-lg">
           <label className="block text-gray-700 font-medium mb-2">
@@ -223,14 +221,13 @@ const ComplainForm = () => {
             value={stepsTaken}
             onChange={(e) => setStepsTaken(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
         </div>
 
         {/* Initial Addressed By */}
         <div className="p-4 border border-gray-300 rounded-lg">
           <label className="block text-gray-700 font-medium mb-2">
-            Addressed by (If any)
+            Initial Addressed By (Name)
           </label>
           <input
             type="text"
@@ -243,7 +240,7 @@ const ComplainForm = () => {
         {/* Department Contact Phone Number */}
         <div className="p-4 border border-gray-300 rounded-lg">
           <label className="block text-gray-700 font-medium mb-2">
-            Contact Phone Number of the Department
+            Department Contact Phone Number
           </label>
           <input
             type="text"
@@ -253,13 +250,12 @@ const ComplainForm = () => {
           />
         </div>
 
-        {/* Other Information */}
+        {/* Other Info */}
         <div className="p-4 border border-gray-300 rounded-lg">
           <label className="block text-gray-700 font-medium mb-2">
-            Other Relevant Information (If Any)
+            Other Information
           </label>
-          <input
-            type="text"
+          <textarea
             value={otherInfo}
             onChange={(e) => setOtherInfo(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -269,9 +265,9 @@ const ComplainForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300"
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          Raise Complaint
+          Submit Complaint
         </button>
       </form>
     </div>

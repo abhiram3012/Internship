@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function Profile() {
   const user = useSelector((state) => state.user); // Access user from Redux store
@@ -33,12 +33,12 @@ function Profile() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="p-10 w-full max-w-3xl bg-white rounded-xl shadow-md space-y-6">
-        <h2 className="text-3xl font-bold">Profile</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="p-6 w-full max-w-lg bg-white rounded-xl shadow-md space-y-6">
+        <h2 className="text-3xl font-bold text-center">Profile</h2>
 
         <div className="border-b pb-4">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <span className="font-medium text-lg">Name:</span>
             {isEditing ? (
               <input
@@ -54,7 +54,7 @@ function Profile() {
         </div>
 
         <div className="border-b pb-4">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <span className="font-medium text-lg">Email:</span>
             {isEditing ? (
               <input
@@ -70,7 +70,7 @@ function Profile() {
         </div>
 
         <div className="border-b pb-4">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <span className="font-medium text-lg">Phone Number:</span>
             {isEditing ? (
               <input
@@ -80,19 +80,19 @@ function Profile() {
                 className="block w-2/3 p-1 border border-gray-300 rounded"
               />
             ) : (
-              <span>1234567890</span>
+              <span>{user.phoneNumber}</span>
             )}
           </div>
         </div>
 
         <div className="border-b pb-4">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <span className="font-medium text-lg">Role:</span>
             <span>{user.role}</span>
           </div>
         </div>
 
-        <div className="mt-6 flex space-x-4">
+        <div className="mt-6 flex flex-col md:flex-row md:space-x-4">
           <button
             onClick={handleEditToggle}
             className={`px-6 py-2 text-white rounded ${isEditing ? 'bg-green-500' : 'bg-blue-500'}`}
@@ -102,7 +102,7 @@ function Profile() {
 
           <button
             onClick={() => setShowChangePassword(!showChangePassword)}
-            className="px-6 py-2 bg-blue-500 text-white rounded"
+            className="mt-4 md:mt-0 px-6 py-2 bg-blue-500 text-white rounded"
           >
             Change Password
           </button>

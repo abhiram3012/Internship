@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
+const adminSchema = mongoose.Schema({
     username: {
         type: String,
         required: [true, "Please add the user name"],
     },
-    email: {
+    emailId: {
         type: String,
         required: [true, "Please add the user email address"],
         unique: [true, "email address already taken"],
@@ -19,4 +19,6 @@ const userSchema = mongoose.Schema({
 }
 );
 
-module.exports = mongoose.model("User", userSchema);
+const Admin = mongoose.model("Admin", adminSchema);
+
+module.exports = Admin;

@@ -4,7 +4,7 @@ const endUserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true, // Ensure username is unique
+    unique: true,
   },
   fullname: {
     type: String,
@@ -35,6 +35,9 @@ const endUserSchema = new mongoose.Schema({
       message: props => `${props.value} is not a valid email!`,
     },
   },
+  password: {
+    type: String,
+  }
 }, {
   timestamps: true, // Automatically add createdAt and updatedAt fields
 });

@@ -67,52 +67,56 @@ function Users() {
       <h2 className="text-xl font-bold mb-4">All Users</h2>
       
       <h3 className="text-lg font-semibold mt-6 mb-2">End Users</h3>
-      <table className="min-w-full border-collapse border border-gray-300 mb-6">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Username</th>
-            <th className="border border-gray-300 p-2">Full Name</th>
-            <th className="border border-gray-300 p-2">Department</th>
-            <th className="border border-gray-300 p-2">Phone Number</th>
-            <th className="border border-gray-300 p-2">Email ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {endUsers.map((user, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 p-2">{user.username}</td>
-              <td className="border border-gray-300 p-2">{user.fullname}</td>
-              <td className="border border-gray-300 p-2">{user.department}</td>
-              <td className="border border-gray-300 p-2">{user.phoneNumber}</td>
-              <td className="border border-gray-300 p-2">{user.emailId}</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-300 mb-6">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Username</th>
+              <th className="border border-gray-300 p-2">Full Name</th>
+              <th className="border border-gray-300 p-2">Department</th>
+              <th className="border border-gray-300 p-2">Phone Number</th>
+              <th className="border border-gray-300 p-2">Email ID</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {endUsers.map((user, index) => (
+              <tr key={index}>
+                <td className="border border-gray-300 p-2">{user.username}</td>
+                <td className="border border-gray-300 p-2">{user.fullname}</td>
+                <td className="border border-gray-300 p-2">{user.department}</td>
+                <td className="border border-gray-300 p-2">{user.phoneNumber}</td>
+                <td className="border border-gray-300 p-2">{user.emailId}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <h3 className="text-lg font-semibold mt-6 mb-2">Technicians</h3>
-      <table className="min-w-full border-collapse border border-gray-300 mb-6">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Username</th>
-            <th className="border border-gray-300 p-2">Full Name</th>
-            <th className="border border-gray-300 p-2">Department</th>
-            <th className="border border-gray-300 p-2">Phone Number</th>
-            <th className="border border-gray-300 p-2">Email ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {technicians.map((user, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 p-2">{user.username}</td>
-              <td className="border border-gray-300 p-2">{user.fullname}</td>
-              <td className="border border-gray-300 p-2">{user.department}</td>
-              <td className="border border-gray-300 p-2">{user.phoneNumber}</td>
-              <td className="border border-gray-300 p-2">{user.emailId}</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-300 mb-6">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Username</th>
+              <th className="border border-gray-300 p-2">Full Name</th>
+              <th className="border border-gray-300 p-2">Department</th>
+              <th className="border border-gray-300 p-2">Phone Number</th>
+              <th className="border border-gray-300 p-2">Email ID</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {technicians.map((user, index) => (
+              <tr key={index}>
+                <td className="border border-gray-300 p-2">{user.username}</td>
+                <td className="border border-gray-300 p-2">{user.fullname}</td>
+                <td className="border border-gray-300 p-2">{user.department}</td>
+                <td className="border border-gray-300 p-2">{user.phoneNumber}</td>
+                <td className="border border-gray-300 p-2">{user.emailId}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <button 
         onClick={() => setShowForm(true)} 

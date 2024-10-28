@@ -10,32 +10,36 @@ const dummyData = [
 
 const NewProblems = () => {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">New Problems</h1>
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Problem Name</th>
-            <th className="py-2 px-4 border-b">Date Raised</th>
-            <th className="py-2 px-4 border-b">Type</th>
-            <th className="py-2 px-4 border-b">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dummyData.map(problem => (
-            <tr key={problem.id}>
-              <td className="py-2 px-4 border-b">{problem.name}</td>
-              <td className="py-2 px-4 border-b">{problem.date}</td>
-              <td className="py-2 px-4 border-b">{problem.type}</td>
-              <td className="py-2 px-4 border-b">
-                <Link to={`/technician/problem/${problem.id}`} className="text-blue-500">
-                  View Details
-                </Link>
-              </td>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 text-center lg:text-left">
+        New Problems
+      </h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200 text-sm sm:text-base">
+          <thead>
+            <tr>
+              <th className="py-2 px-3 sm:px-4 border-b">Problem Name</th>
+              <th className="py-2 px-3 sm:px-4 border-b">Date Raised</th>
+              <th className="py-2 px-3 sm:px-4 border-b">Type</th>
+              <th className="py-2 px-3 sm:px-4 border-b">Details</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {dummyData.map((problem) => (
+              <tr key={problem.id} className="hover:bg-gray-50">
+                <td className="py-2 px-3 sm:px-4 border-b">{problem.name}</td>
+                <td className="py-2 px-3 sm:px-4 border-b">{problem.date}</td>
+                <td className="py-2 px-3 sm:px-4 border-b">{problem.type}</td>
+                <td className="py-2 px-3 sm:px-4 border-b text-blue-500">
+                  <Link to={`/technician/problem/${problem.id}`} className="hover:underline">
+                    View Details
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

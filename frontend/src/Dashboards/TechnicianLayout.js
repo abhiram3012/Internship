@@ -1,16 +1,16 @@
-import React from 'react'
-import { Outlet} from 'react-router-dom'
-import TechnicianDashboard from '../pages/TechnicianDashboard'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import TechnicianDashboard from '../pages/TechnicianDashboard';
 
 const TechnicianLayout = () => {
   return (
-    <div className="flex">
-        <TechnicianDashboard />
-        <div className="ml-[20rem] p-4 w-full"> {/* Adjusts the margin-left to account for the sidebar width */}
-          <Outlet /> {/* Renders the child routes */}
-        </div>
+    <div className="flex flex-col md:flex-row"> {/* Stacks elements on small screens, arranges horizontally on medium screens and above */}
+      <TechnicianDashboard />
+      <div className="flex-1 p-4 md:ml-[20rem]"> {/* Use flex-1 to fill remaining space and responsive margin */}
+        <Outlet /> {/* Renders the child routes */}
       </div>
-  )
+    </div>
+  );
 }
 
-export default TechnicianLayout
+export default TechnicianLayout;

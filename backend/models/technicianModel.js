@@ -28,6 +28,9 @@ const technicianSchema = new mongoose.Schema({
     type: [String], // Array of strings to hold multiple skills
     required: true,
   },
+  password: {
+    type: String,
+  }
 });
 
 // Create the Technician model
