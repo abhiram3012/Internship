@@ -25,9 +25,12 @@ export function LoginForm() {
 
     try {
       // Set the URL based on the selected role
+      console.log(emailId);
+      console.log(password);
       let loginUrl = `http://localhost:5000/api/${role}/login`; 
 
       const response = await axios.post(loginUrl, { emailId, password });
+      console.log(response);
 
       // Store the token and user details in local storage and Redux
       localStorage.setItem('token', response.data.accessToken);
@@ -35,6 +38,7 @@ export function LoginForm() {
         uid: response.data.id,
         username: response.data.username,
         emailId: response.data.emailId,
+        role: response.data.role,
         phoneNumber:response.data.phoneNumber,
         department:response.data.department,
         accesstoken: response.data.accessToken

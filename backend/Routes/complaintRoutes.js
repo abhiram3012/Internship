@@ -19,11 +19,34 @@ router.post('/raisecomplaint', async (req, res) => {
   }
 });
 
+// PUT route to update the status of a specific complaint
+router.put('/updatestatus/:id', async (req, res) => {
+  const { id } = req.params; // Extract complaint ID from request parameters
+  const { status } = req.body; // Extract the new status from request body
+
+  try {
+    // Update the complaint's status in the database
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    res.status(200).json({ message: 'Status updated successfully', complaint: updatedComplaint });
+  } catch (error) {
+    console.error('Error updating complaint status:', error);
+    res.status(500).json({ message: 'Error updating status', error: error.message });
+  }
+});
 
 // GET route to retrieve all complaints
 router.get('/getcomplaints', async (req, res) => {
   try {
-    const complaints = await Complaint.find().sort({ createdAt: -1 }); // Sort by 'createdAt' in descending order
+    const complaints = await Complaint.find().sort({ createdAt: -1 }).populate('raisedBy', 'fullname'); // Sort by 'createdAt' in descending order
     res.status(200).json(complaints); // Return the complaints as a JSON response
   } catch (error) {
     console.error('Error retrieving complaints:', error);
@@ -35,7 +58,7 @@ router.get('/getcomplaints', async (req, res) => {
 router.get('/getcomplaint/:id', async (req, res) => {
   const { id } = req.params; // Extract the id from the request parameters
   try {
-    const complaint = await Complaint.findById(id); // Fetch the complaint by ID from the database
+    const complaint = await Complaint.findById(id).populate('raisedBy', 'fullname'); // Fetch the complaint by ID from the database
     
     if (!complaint) {
       return res.status(404).json({ message: 'Complaint not found' }); // Handle case where complaint is not found
@@ -129,6 +152,117 @@ router.get('/getcomplaints/user/:userId', async (req, res) => {
   } catch (error) {
     console.error('Error retrieving complaints for user:', error);
     res.status(500).json({ message: 'Error retrieving complaints for user', error: error.message });
+  }
+});
+
+// New route to assign a technician to a specific complaint by complaint ID and technician ID
+router.put('/assignTechnician/:complaintId/:technicianId', async (req, res) => {
+  const { complaintId, technicianId } = req.params; // Extract complaint ID and technician ID from the request parameters
+
+  try {
+    // Update the complaint with the technician's ID and set status to "assigned"
+    const updatedComplaint = await Complaint.findByIdAndUpdate(
+      complaintId,
+      {
+        assignedTo: technicianId, // Assigning the technician
+        status: 'assigned',       // Updating status to 'assigned'
+      },
+      { new: true } // Return the updated document
+    ).populate('assignedTo'); // Optionally, populate to return technician details
+
+    if (!updatedComplaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    res.status(200).json({ message: 'Technician assigned successfully', complaint: updatedComplaint });
+  } catch (error) {
+    console.error('Error assigning technician to complaint:', error);
+    res.status(500).json({ message: 'Error assigning technician', error: error.message });
+  }
+});
+
+// Route to fetch all complaints assigned to a specific technician
+// router.get('/getassignedcomplaints/:technicianId', async (req, res) => {
+//   const { technicianId } = req.params; // Extract the technician ID from request parameters
+
+//   try {
+//     // Fetch complaints where 'assignedTo' matches the technician's ID
+//     const assignedComplaints = await Complaint.find({ assignedTo: technicianId }).sort({ createdAt: -1 });
+    
+//     if (assignedComplaints.length === 0) {
+//       return res.status(404).json({ message: 'No complaints assigned to this technician' });
+//     }
+
+//     res.status(200).json(assignedComplaints); // Return the list of assigned complaints
+//   } catch (error) {
+//     console.error('Error retrieving assigned complaints:', error);
+//     res.status(500).json({ message: 'Error retrieving assigned complaints', error: error.message });
+//   }
+// });
+
+// Route to fetch complaints with populated user names for raisedBy and assignedTo
+router.get('/getassignedcomplaints/:technicianId', async (req, res) => {
+  const { technicianId } = req.params;
+
+  try {
+    // Fetch complaints and populate the raisedBy and assignedTo fields with user details
+    const assignedComplaints = await Complaint.find({ assignedTo: technicianId })
+      .populate('raisedBy', 'fullname') // Populate 'name' field from User model for raisedBy
+      .populate('assignedTo', 'fullname') // Populate 'name' field from User model for assignedTo
+      .sort({ createdAt: -1 });
+
+    if (assignedComplaints.length === 0) {
+      return res.status(404).json({ message: 'No complaints assigned to this technician' });
+    }
+
+    res.status(200).json(assignedComplaints);
+  } catch (error) {
+    console.error('Error retrieving assigned complaints:', error);
+    res.status(500).json({ message: 'Error retrieving assigned complaints', error: error.message });
+  }
+});
+
+// GET route to retrieve complaint status counts
+router.get('/status', async (req, res) => {
+  try {
+    // Aggregate to count complaints by their status
+    const statusCounts = await Complaint.aggregate([
+      {
+        $group: {
+          _id: '$status', // Group by 'status' field
+          count: { $sum: 1 } // Count occurrences of each status
+        }
+      }
+    ]);
+
+    // Initialize counts
+    const counts = {
+      solved: 0,
+      rejected: 0,
+      inProgress: 0,
+    };
+
+    // Map the counts from the aggregation results to our response format
+    statusCounts.forEach((status) => {
+      if (status._id === 'solved') {
+        counts.solved = status.count;
+      } else if (status._id === 'rejected') {
+        counts.rejected = status.count;
+      } else if (
+        status._id === 'in progress' ||
+        status._id === 'assigned' ||
+        status._id === 'raised' ||
+        status._id === 'checked'
+      ) {
+        counts.inProgress += status.count; // Sum counts for all in-progress statuses
+      }
+    });
+
+
+    res.status(200).json(counts); // Return the counts in the required format
+  } catch (error) {
+    console.error('Error retrieving complaint status counts:', error);
+    res.status(500).json({ message: 'Error retrieving complaint status counts', error: error.message });
   }
 });
 

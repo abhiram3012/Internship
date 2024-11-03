@@ -50,7 +50,7 @@ const NewProblems = () => {
                   <td className="py-2 px-3 sm:px-4 border-b">{new Date(problem.createdAt).toLocaleDateString()}</td>
                   <td className="py-2 px-3 sm:px-4 border-b">{problem.problemType}</td>
                   <td className="py-2 px-3 sm:px-4 border-b text-blue-500">
-                    <Link to={`/technician/problem/${problem._id}`} className="hover:underline">
+                    <Link to={`/technician/problemdetails/${problem._id}`} className="hover:underline">
                       View Details
                     </Link>
                   </td>

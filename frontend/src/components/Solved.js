@@ -1,29 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function Solved() {
-  const solvedProblems = [
-    { id: 1, issueName: 'Software Update', raisedBy: 'Charlie Brown', problemType: 'Software' },
-    { id: 2, issueName: 'Firewall Configuration', raisedBy: 'Diana Prince', problemType: 'Security' },
-  ];
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/complain/getcomplaints');
+        console.log(response.data.status);
+        const complaints = response.data.filter(complaint => complaint.status === 'solved');
+        console.log(complaints);
+        setComplaints(complaints);
+      } catch (error) {
+        console.error('Error fetching complaints:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComplaints();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Solved</h2>
+      <h2 className="text-xl font-bold mb-4">Solved Complaints</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2 text-left">Name of Issue</th>
+              <th className="border border-gray-300 p-2 text-left">Problem Details</th>
               <th className="border border-gray-300 p-2 text-left">Raised By</th>
               <th className="border border-gray-300 p-2 text-left">Problem Type</th>
+              <th className="border border-gray-300 p-2 text-left">Status</th>
             </tr>
           </thead>
           <tbody>
-            {solvedProblems.map((problem) => (
-              <tr key={problem.id} className="hover:bg-gray-100">
-                <td className="border border-gray-300 p-2">{problem.issueName}</td>
-                <td className="border border-gray-300 p-2">{problem.raisedBy}</td>
-                <td className="border border-gray-300 p-2">{problem.problemType}</td>
+            {complaints.map((complaint) => (
+              <tr key={complaint.id}>
+                <td className="border border-gray-300 p-2">{complaint.problemDetails}</td>
+                <td className="border border-gray-300 p-2">{complaint.raisedBy.fullname}</td>
+                <td className="border border-gray-300 p-2">{complaint.problemType}</td>
+                <td className="border border-gray-300 p-2">{complaint.status}</td>
               </tr>
             ))}
           </tbody>

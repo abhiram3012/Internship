@@ -18,6 +18,8 @@ import Rejected from './components/Rejected';
 import Profile from './components/Profile';
 import MyTasks from './components/MyTasks';
 import ProtectedRoute from './utils/ProtectedRoute';
+import TechnicianProblemDetails from './pages/TechnicianProblemDetails';
+import TechnicianHistoryComp from './components/TechnicianHistoryComp';
 
 const App = () => {
   return (
@@ -26,14 +28,14 @@ const App = () => {
       <Route path='/' element={<LoginForm />} />
       
       {/* Protected routes for Enduser */}
-      <Route path='/enduser' element={<ProtectedRoute><EnduserLayout /></ProtectedRoute>}>
+      <Route path='/enduser' element={<ProtectedRoute allowedRoles={['enduser']}><EnduserLayout /></ProtectedRoute>}>
         <Route path='complain' element={<ComplainForm />} />
         <Route path='history' element={<HistoryComponents />} />
         <Route path='profile' element={<Profile />} />
       </Route>
 
       {/* Protected routes for Admin */}
-      <Route path='/admin' element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
+      <Route path='/admin' element={<ProtectedRoute allowedRoles={['admin']}><AdminLayout /></ProtectedRoute>}>
         <Route path='new-complaints' element={<NewComplaints />} />
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='users' element={<Users />} />
@@ -45,11 +47,12 @@ const App = () => {
       </Route>
 
       {/* Protected routes for Technician */}
-      <Route path='/technician' element={<ProtectedRoute><TechnicianLayout /></ProtectedRoute>}>
+      <Route path='/technician' element={<ProtectedRoute allowedRoles={['technician']}><TechnicianLayout /></ProtectedRoute>}>
         <Route path='new-problems' element={<NewProblems />} />
-        <Route path='problem/:id' element={<ProblemDetails />} />
+        <Route path='problem/:id' element={<TechnicianProblemDetails />} />
+        <Route path='problemdetails/:id' element={<ProblemDetails />} />
         <Route path='inbox' element={<Inbox />} />
-        <Route path='history' element={<HistoryComponents />} />
+        <Route path='history' element={<TechnicianHistoryComp />} />
         <Route path='profile' element={<Profile />} />
         <Route path='my-tasks' element={<MyTasks />} />
       </Route>

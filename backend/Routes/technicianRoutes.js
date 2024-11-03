@@ -102,7 +102,7 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign({ id: technician._id, username: technician.username }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '1h', // Token expiration time
     });
-    res.status(200).json({id:technician.id, phoneNumber:technician.phoneNumber,email:technician.emailId,username:technician.username,accessToken:accessToken})
+    res.status(200).json({id:technician.id, phoneNumber:technician.phoneNumber,email:technician.emailId, role:"technician",username:technician.username,accessToken:accessToken})
   } catch (error) {
     console.error('Error logging in technician:', error);
     res.status(500).json({ message: 'Internal server error' });
@@ -117,6 +117,37 @@ router.get('/getAll', async (req, res) => {
   } catch (error) {
     console.error('Error fetching technicians:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Change Password Route
+router.put('/changePassword', async (req, res) => {
+  const { emailId, currentPassword, newPassword } = req.body;
+
+  try {
+    // Find the user by email
+    const user = await Technician.findOne({ emailId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Check if the current password is correct
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isCurrentPasswordValid) {
+      return res.status(400).json({ message: 'Incorrect current password.' });
+    }
+
+    // Hash the new password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password changed successfully.' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

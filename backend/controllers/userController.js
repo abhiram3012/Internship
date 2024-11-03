@@ -57,11 +57,12 @@ const loginUser = asyncHandler(async (req,res) => {
         }, 
         process.env.ACCESS_TOKEN_SECRET
         );
-        res.status(200).json({id:usr.id,emailId:usr.emailId,username:usr.username,accessToken:accessToken})
+        res.status(200).json({id:usr.id,emailId:usr.emailId, role:"admin",username:usr.username,accessToken:accessToken})
     }else{
         res.status(401);
         throw new Error("email or password is not valid");
     }
 });
+
 
 module.exports = {registerUser, loginUser};
