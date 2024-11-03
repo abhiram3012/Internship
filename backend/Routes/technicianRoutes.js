@@ -88,6 +88,7 @@ router.post('/login', async (req, res) => {
     // Find the technician by username
     const technician = await Technician.findOne({ emailId });
     if (!technician) {
+      console.log("fvihji")
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
@@ -101,7 +102,7 @@ router.post('/login', async (req, res) => {
     const accessToken = jwt.sign({ id: technician._id, username: technician.username }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: '1h', // Token expiration time
     });
-    res.status(200).json({id:technician.id,email:technician.email,username:technician.username,accessToken:accessToken})
+    res.status(200).json({id:technician.id, phoneNumber:technician.phoneNumber,email:technician.emailId,username:technician.username,accessToken:accessToken})
   } catch (error) {
     console.error('Error logging in technician:', error);
     res.status(500).json({ message: 'Internal server error' });

@@ -48,6 +48,10 @@ const ProblemDetails = () => {
           <p><strong>Initial Addressed By:</strong> {problem.initialAddressedBy}</p>
           <p><strong>Department Contact Phone:</strong> {problem.deptContactPhoneNumber}</p>
           {problem.otherInfo && <p><strong>Other Info:</strong> {problem.otherInfo}</p>}
+          <p><strong>Raised At:</strong> {new Date(problem.createdAt).toLocaleDateString()}</p>
+          <p><strong>Time:</strong> {new Date(problem.createdAt).toLocaleTimeString()}</p>
+
+          
         </div>
         <div className="text-center mt-6">
           <button className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-500 text-white text-sm sm:text-lg rounded hover:bg-blue-600 transition">

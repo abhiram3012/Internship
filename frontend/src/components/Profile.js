@@ -64,7 +64,7 @@ function Profile() {
                 className="block w-2/3 p-1 border border-gray-300 rounded"
               />
             ) : (
-              <span>{user.email}</span>
+              <span>{user.emailId}</span>
             )}
           </div>
         </div>

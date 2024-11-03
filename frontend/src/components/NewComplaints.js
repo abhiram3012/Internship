@@ -82,7 +82,7 @@ function NewComplaints() {
         <table className="min-w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th className="border border-gray-300 p-2">Raised By</th>
+              <th className="border border-gray-300 p-2">Problem Details</th>
               <th className="border border-gray-300 p-2">Problem Type</th>
               <th className="border border-gray-300 p-2">Details</th>
               <th className="border border-gray-300 p-2">Assign</th>
@@ -91,7 +91,7 @@ function NewComplaints() {
           <tbody>
             {complaints.map((complaint) => (
               <tr key={complaint._id}>
-                <td className="border border-gray-300 p-2">{complaint.raisedBy}</td>
+                <td className="border border-gray-300 p-2">{complaint.problemDetails}</td>
                 <td className="border border-gray-300 p-2">{complaint.problemType}</td>
                 <td className="border border-gray-300 p-2">
                   <button 

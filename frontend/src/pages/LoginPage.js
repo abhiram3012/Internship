@@ -35,6 +35,8 @@ export function LoginForm() {
         uid: response.data.id,
         username: response.data.username,
         emailId: response.data.emailId,
+        phoneNumber:response.data.phoneNumber,
+        department:response.data.department,
         accesstoken: response.data.accessToken
       }));
 

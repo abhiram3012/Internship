@@ -45,8 +45,8 @@ const MyTasks = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {tasks.map((task) => (
                 <tr key={task._id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{task.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.assignedDate}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{task.problemDetails}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(task.createdAt).toLocaleDateString()}{task.assignedDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.status}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <a href={`/technician/problem/${task._id}`} className="text-blue-500 hover:text-blue-700">View Details</a>

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa'; // Import an icon for the tick mark
+import { FaCheckCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const ComplainForm = () => {
+  const user = useSelector((state) => state.user); // Access user from Redux store
+
+  // Initialize fields directly from user data
   const [problemType, setProblemType] = useState('');
   const [otherProblem, setOtherProblem] = useState('');
-  const [department, setDepartment] = useState('');
-  const [raisedBy, setRaisedBy] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState('');
   const [problemDetails, setProblemDetails] = useState('');
   const [isUnderWarranty, setIsUnderWarranty] = useState('');
   const [stepsTaken, setStepsTaken] = useState('');
-  const [initialAddressedBy, setInitialAddressedBy] = useState(''); // Keep this state
-  const [deptContactPhoneNumber, setDeptContactPhoneNumber] = useState(''); // Keep this state
-  const [otherInfo, setOtherInfo] = useState(''); // Keep this state
-  const [isSubmitted, setIsSubmitted] = useState(false); // New state for submission status
+  const [initialAddressedBy, setInitialAddressedBy] = useState('');
+  const [deptContactPhoneNumber, setDeptContactPhoneNumber] = useState('');
+  const [otherInfo, setOtherInfo] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleProblemChange = (e) => {
     setProblemType(e.target.value);
@@ -27,16 +28,16 @@ const ComplainForm = () => {
     e.preventDefault();
     const formData = {
       problemType: problemType === 'other' ? otherProblem : problemType,
-      department,
-      raisedBy,
-      phoneNumber,
+      department: user.department,
+      raisedBy: user.uid,
+      phoneNumber: user.phoneNumber,
       location,
       problemDetails,
       isUnderWarranty,
       stepsTaken,
-      initialAddressedBy, // Include in form submission
-      deptContactPhoneNumber, // Include in form submission
-      otherInfo, // Include in form submission
+      initialAddressedBy,
+      deptContactPhoneNumber,
+      otherInfo,
     };
 
     try {
@@ -50,9 +51,9 @@ const ComplainForm = () => {
 
       const data = await response.json();
       if (response.ok) {
-        setIsSubmitted(true); // Update submission status to true
+        setIsSubmitted(true);
         setTimeout(() => {
-          setIsSubmitted(false); // Reset the form after a few seconds
+          setIsSubmitted(false);
         }, 3000);
       } else {
         throw new Error(data.message);
@@ -72,46 +73,17 @@ const ComplainForm = () => {
       )}
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Department Name */}
+        {/* Display user details */}
         <div className="p-4 border border-gray-300 rounded-lg">
-          <label className="block text-gray-700 font-medium mb-2">
-            Name of the Department (Eg: EEE, ECE,...)
-          </label>
-          <input
-            type="text"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {/* Raised By */}
-        <div className="p-4 border border-gray-300 rounded-lg">
-          <label className="block text-gray-700 font-medium mb-2">
-            Issue Raised by (Name of the Staff Member, Designation)
-          </label>
-          <input
-            type="text"
-            value={raisedBy}
-            onChange={(e) => setRaisedBy(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {/* Phone Number */}
-        <div className="p-4 border border-gray-300 rounded-lg">
-          <label className="block text-gray-700 font-medium mb-2">
-            Phone Number
-          </label>
-          <input
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          <p className="text-gray-700 font-medium mb-2">
+            <strong>Department:</strong> {user.department}
+          </p>
+          <p className="text-gray-700 font-medium mb-2">
+            <strong>Raised By:</strong> {user.username}
+          </p>
+          <p className="text-gray-700 font-medium mb-2">
+            <strong>Phone Number:</strong> {user.phoneNumber}
+          </p>
         </div>
 
         {/* Type of Issue */}
@@ -140,6 +112,24 @@ const ComplainForm = () => {
           </div>
         </div>
 
+        {/* Other Problem Input */}
+        {problemType === 'other' && (
+          <div className="p-4 border border-gray-300 rounded-lg">
+            <label htmlFor="otherProblem" className="block text-gray-700 font-medium mb-2">
+              Please specify the problem:
+            </label>
+            <input
+              type="text"
+              id="otherProblem"
+              value={otherProblem}
+              onChange={(e) => setOtherProblem(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+        )}
+
+        {/* Other fields remain unchanged */}
         {/* Other Problem Input */}
         {problemType === 'other' && (
           <div className="p-4 border border-gray-300 rounded-lg">
@@ -262,7 +252,6 @@ const ComplainForm = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

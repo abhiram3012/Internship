@@ -6,7 +6,8 @@ const complaintSchema = new mongoose.Schema({
     required: true,
   },
   raisedBy: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'EndUser', // Reference to the Technician model
     required: true,
   },
   phoneNumber: {
@@ -53,7 +54,7 @@ const complaintSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['raised', 'assigned', 'checked', 'solved'],
+    enum: ['raised', 'assigned', 'checked', 'in progress', 'rejected', 'solved'],
     default: 'raised', // Default status when a complaint is created
     required: true,
   },
