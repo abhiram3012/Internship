@@ -9,7 +9,6 @@ import {
   DocumentChartBarIcon,
   ExclamationTriangleIcon,
   UserCircleIcon,
-  Cog6ToothIcon,
   UsersIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
@@ -94,12 +93,6 @@ export default function AdminDashboard() {
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
             Profile
-          </ListItem>
-          <ListItem onClick={() => handleNavigation('/admin/settings')}>
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
           </ListItem>
           <ListItem onClick={handleLogout}>
             <ListItemPrefix>

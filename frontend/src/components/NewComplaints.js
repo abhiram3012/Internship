@@ -14,7 +14,10 @@ function NewComplaints() {
     const fetchComplaints = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/complain/getcomplaints');
-        setComplaints(response.data);
+        const complaints = response.data.filter(complaint =>
+          ['raised'].includes(complaint.status)
+        );
+        setComplaints(complaints);
       } catch (error) {
         console.error('Error fetching complaints:', error);
       }

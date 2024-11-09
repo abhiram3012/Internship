@@ -10,7 +10,6 @@ import {
   DocumentPlusIcon,
   ClockIcon,
   UserCircleIcon,
-  Cog6ToothIcon,
   PowerIcon,
   Bars3Icon,
   XMarkIcon,
@@ -87,12 +86,6 @@ export function Sidebar() {
               <UserCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
             Profile
-          </ListItem>
-          <ListItem onClick={() => handleNavigation('/enduser/settings')}>
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
           </ListItem>
           <ListItem onClick={handleLogout}>
             <ListItemPrefix>

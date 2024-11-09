@@ -1,7 +1,18 @@
 const express = require('express');
 const Complaint = require('../models/complaint'); // Adjust the path as needed
+const nodemailer = require('nodemailer');
+const Technician = require('../models/technicianModel'); // Adjust the path as necessary
 
 const router = express.Router();
+
+// Configure Nodemailer transporter (update with actual SMTP credentials)
+const transporter = nodemailer.createTransport({
+  service: 'gmail', // or use another service (like SMTP, Mailgun, etc.)
+  auth: {
+    user: process.env.EMAIL_USER,  // Your email address
+    pass: process.env.EMAIL_PASS,  // Your email password or app-specific password
+  },
+});
 
 // POST route to create a new complaint
 router.post('/raisecomplaint', async (req, res) => {
@@ -72,6 +83,7 @@ router.get('/getcomplaint/:id', async (req, res) => {
 });
 
 // Route to assign a technician to a complaint
+// Route to assign a technician to a complaint
 router.put('/assign/:id', async (req, res) => {
   try {
     const { technicianId } = req.body; // Expecting technician's ObjectId from request body
@@ -89,6 +101,28 @@ router.put('/assign/:id', async (req, res) => {
     if (!updatedComplaint) {
       return res.status(404).json({ message: 'Complaint not found' });
     }
+
+    // Fetch the technician's email from the User model
+    const technician = await Technician.findById(technicianId);
+    if (!technician || !technician.emailId) {
+      return res.status(404).json({ message: 'Technician not found or missing email' });
+    }
+
+    // Send email notification to the technician
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: technician.emailId,
+      subject: 'New Task Assigned',
+      text: `Dear ${technician.fullname},\n\nYou have been assigned a new task:\n\nTask: ${updatedComplaint.problemDetails}\n\nPlease log in to your dashboard to view more details.\n\nThank you.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).json({ message: 'Error sending email notification', error });
+      }
+      console.log('Email sent:', info.response);
+    });
 
     res.status(200).json(updatedComplaint);
   } catch (error) {

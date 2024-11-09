@@ -5,6 +5,16 @@ const adminSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add the user name"],
     },
+    phoneNumber: {
+        type: String,
+        required: true,
+        validate: {
+          validator: function(v) {
+            return /\d{10}/.test(v); // Simple validation for 10-digit phone number
+          },
+          message: props => `${props.value} is not a valid phone number!`,
+        },
+      },
     emailId: {
         type: String,
         required: [true, "Please add the user email address"],

@@ -7,8 +7,8 @@ const bcrypt = require('bcrypt');
 //@route POST /api/users/register
 //@access public
 const registerUser = asyncHandler(async (req,res) => {
-    const {username , emailId , password} = req.body
-    if(!username || !emailId || !password){
+    const {username, phoneNumber , emailId , password} = req.body
+    if(!username|| !phoneNumber || !emailId || !password){
         res.status(400);
         throw new Error("All fields are mandatory");
     }
@@ -23,6 +23,7 @@ const registerUser = asyncHandler(async (req,res) => {
     console.log("Hashed password: ",hashedPassword);
     const User = await Admin.create({
         username,
+        phoneNumber,
         emailId,
         password: hashedPassword,
     });
@@ -57,7 +58,7 @@ const loginUser = asyncHandler(async (req,res) => {
         }, 
         process.env.ACCESS_TOKEN_SECRET
         );
-        res.status(200).json({id:usr.id,emailId:usr.emailId, role:"admin",username:usr.username,accessToken:accessToken})
+        res.status(200).json({id:usr.id, phoneNumber: usr.phoneNumber,emailId:usr.emailId, role:"admin",username:usr.username,accessToken:accessToken})
     }else{
         res.status(401);
         throw new Error("email or password is not valid");
