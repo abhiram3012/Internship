@@ -57,13 +57,26 @@ router.put('/updatestatus/:id', async (req, res) => {
 // GET route to retrieve all complaints
 router.get('/getcomplaints', async (req, res) => {
   try {
-    const complaints = await Complaint.find().sort({ createdAt: -1 }).populate('raisedBy', 'fullname'); // Sort by 'createdAt' in descending order
-    res.status(200).json(complaints); // Return the complaints as a JSON response
+    const complaints = await Complaint.find()
+      .sort({ createdAt: -1 })
+      .populate('raisedBy', 'fullname')     // Populate fullname for raisedBy
+      .populate('assignedTo', 'fullname');  // Populate fullname for assignedTo
+
+    // Map the complaints to include raisedBy and assignedTo's fullname directly
+    const modifiedComplaints = complaints.map((complaint) => ({
+      ...complaint._doc,
+      raisedBy: complaint.raisedBy.fullname,
+      assignedTo: complaint.assignedTo ? complaint.assignedTo.fullname : "Not yet assigned", // Handle cases where assignedTo might be null
+    }));
+
+    res.status(200).json(modifiedComplaints);
   } catch (error) {
     console.error('Error retrieving complaints:', error);
     res.status(500).json({ message: 'Error retrieving complaints', error: error.message });
   }
 });
+
+
 
 // GET route to retrieve a specific complaint by ID
 router.get('/getcomplaint/:id', async (req, res) => {
@@ -176,8 +189,10 @@ router.get('/getcomplaints/user/:userId', async (req, res) => {
         { raisedBy: userId },
         { assignedTo: userId }
       ]
-    }).sort({ createdAt: -1 });
-    
+    })
+      .sort({ createdAt: -1 })
+      .populate('assignedTo', 'fullname phoneNumber'); // Include fullname and phoneNumber
+
     if (userComplaints.length === 0) {
       return res.status(404).json({ message: 'No complaints found for this user' });
     }
@@ -188,6 +203,7 @@ router.get('/getcomplaints/user/:userId', async (req, res) => {
     res.status(500).json({ message: 'Error retrieving complaints for user', error: error.message });
   }
 });
+
 
 // New route to assign a technician to a specific complaint by complaint ID and technician ID
 router.put('/assignTechnician/:complaintId/:technicianId', async (req, res) => {

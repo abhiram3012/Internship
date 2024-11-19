@@ -38,6 +38,7 @@ const HistoryComponents = () => {
               <th className="px-4 py-2 border text-left">Problem Detials</th>
               <th className="px-4 py-2 border text-left">When Raised</th>
               <th className="px-4 py-2 border text-left">Technician Assigned</th>
+              <th className="px-4 py-2 border text-left">Mobile No of Technician</th>
               <th className="px-4 py-2 border text-left">Status</th>
             </tr>
           </thead>
@@ -46,7 +47,8 @@ const HistoryComponents = () => {
               <tr key={complaint.id}>
                 <td className="px-4 py-2 border">{complaint.problemDetails}</td>
                 <td className="px-4 py-2 border">{new Date(complaint.createdAt).toLocaleDateString()}</td>
-                <td className="px-4 py-2 border">{complaint.assignedTo==null? "Not yet assigned": complaint.assignedTo}</td>
+                <td className="px-4 py-2 border">{complaint.assignedTo==null? "Not yet assigned": complaint.assignedTo.fullname}</td>
+                <td className="px-4 py-2 border">{complaint.assignedTo==null? "NA":complaint.assignedTo.phoneNumber}</td>
                 <td className={`px-4 py-2 border ${
                   complaint.status === 'Completed'
                     ? 'text-green-500'

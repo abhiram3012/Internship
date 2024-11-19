@@ -24,6 +24,14 @@ const adminSchema = mongoose.Schema({
         type: String,
         required: [true, "Pleasr add the user password"],
     },
+    department: {
+      type: String,
+      required: true
+    },
+    fullname:{
+      type: String,
+      required: true
+    }
 },{
     timestamps: true,
 }

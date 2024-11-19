@@ -43,7 +43,7 @@ function InProgressComplaints() {
             {complaints.map((complaint) => (
               <tr key={complaint.id}>
                 <td className="border border-gray-300 p-2">{complaint.problemDetails}</td>
-                <td className="border border-gray-300 p-2">{complaint.raisedBy.fullname}</td>
+                <td className="border border-gray-300 p-2">{complaint.raisedBy}</td>
                 <td className="border border-gray-300 p-2">{complaint.problemType}</td>
                 <td className="border border-gray-300 p-2">{complaint.status}</td>
               </tr>

@@ -20,6 +20,7 @@ import MyTasks from './components/MyTasks';
 import ProtectedRoute from './utils/ProtectedRoute';
 import TechnicianProblemDetails from './pages/TechnicianProblemDetails';
 import TechnicianHistoryComp from './components/TechnicianHistoryComp';
+import AdminHistory from './components/AdminHistory';
 
 const App = () => {
   return (
@@ -38,6 +39,8 @@ const App = () => {
       <Route path='/admin' element={<ProtectedRoute allowedRoles={['admin']}><AdminLayout /></ProtectedRoute>}>
         <Route path='new-complaints' element={<NewComplaints />} />
         <Route path='dashboard' element={<Dashboard />} />
+        <Route path='history' element={<AdminHistory />} />
+        <Route path='complain' element={<ComplainForm />} />
         <Route path='users' element={<Users />} />
         <Route path='problem/:id' element={<ProblemDetails />} />
         <Route path='dashboard/solved' element={<Solved />} />

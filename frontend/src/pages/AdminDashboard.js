@@ -6,6 +6,8 @@ import {
   ListItemPrefix,
 } from "@material-tailwind/react";
 import {
+  DocumentPlusIcon,
+  ClockIcon,
   DocumentChartBarIcon,
   ExclamationTriangleIcon,
   UserCircleIcon,
@@ -81,6 +83,18 @@ export default function AdminDashboard() {
               <ExclamationTriangleIcon className="h-5 w-5" />
             </ListItemPrefix>
             New Complaints
+          </ListItem>
+          <ListItem onClick={() => handleNavigation('/admin/history')}>
+            <ListItemPrefix>
+              <ClockIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            History
+          </ListItem>
+          <ListItem onClick={() => handleNavigation('/admin/complain')}>
+            <ListItemPrefix>
+              <DocumentPlusIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Raise Complaint
           </ListItem>
           <ListItem onClick={() => handleNavigation('/admin/users')}>
             <ListItemPrefix>
